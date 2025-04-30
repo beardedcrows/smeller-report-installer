@@ -20,10 +20,13 @@ if ! command -v brew &> /dev/null; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
     # Add Homebrew to PATH (Apple Silicon fix)
-    if [[ -d /opt/homebrew/bin ]]; then
-        export PATH="/opt/homebrew/bin:$PATH"
-        echo 'export PATH="/opt/homebrew/bin:$PATH"' >> ~/.zprofile
-    fi
+# Add Homebrew to PATH (macOS Intel & Apple Silicon)
+if [ -f /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [ -f /usr/local/bin/brew ]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+fi
+
 
     if ! command -v brew &> /dev/null; then
         echo "❌ Homebrew installation failed. Please install it manually from https://brew.sh"

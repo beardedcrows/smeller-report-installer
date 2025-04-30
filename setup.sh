@@ -6,7 +6,7 @@ echo "--------------------------------------"
 echo "Enter your access code:"
 read -r ACCESS_CODE
 
-# 🔒 Replace ABC123 with your secret code
+# 🔒 Replace with your actual access code
 if [[ "$ACCESS_CODE" != "Smeller123" ]]; then
     echo "❌ Invalid access code. Please contact the admin."
     exit 1
@@ -16,12 +16,22 @@ echo "✅ Access granted."
 
 # Check for GitHub CLI
 if ! command -v gh &> /dev/null; then
-    echo "❌ GitHub CLI (gh) is not installed. Please install it first:"
-    echo "   https://cli.github.com"
-    exit 1
+    echo "📦 GitHub CLI (gh) not found. Installing via Homebrew..."
+    if ! command -v brew &> /dev/null; then
+        echo "❌ Homebrew is not installed. Please install it first:"
+        echo "   https://brew.sh"
+        exit 1
+    fi
+
+    brew install gh
+
+    if [[ $? -ne 0 ]]; then
+        echo "❌ Failed to install GitHub CLI."
+        exit 1
+    fi
 fi
 
-# Authenticate GitHub (if needed)
+# Authenticate GitHub if needed
 gh auth status &> /dev/null
 if [[ $? -ne 0 ]]; then
     echo "🔑 Logging in to GitHub..."

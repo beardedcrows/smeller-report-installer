@@ -6,7 +6,7 @@ echo "--------------------------------------"
 echo "Enter your access code:"
 read -r ACCESS_CODE
 
-# 🔒 Replace this with your secret
+# 🔒 Replace with your own secret code
 if [[ "$ACCESS_CODE" != "Smeller123" ]]; then
     echo "❌ Invalid access code. Please contact the admin."
     exit 1
@@ -27,12 +27,12 @@ if ! command -v brew &> /dev/null; then
     fi
 
     if ! command -v brew &> /dev/null; then
-        echo "❌ Homebrew installation failed. Please install manually from https://brew.sh"
+        echo "❌ Homebrew installation failed. Please install it manually from https://brew.sh"
         exit 1
     fi
 fi
 
-# Tap your public Homebrew formula repo
+# Tap your (public) Homebrew formula repo
 echo "📦 Tapping Homebrew repo..."
 brew tap beardedcrows/smeller-report https://github.com/beardedcrows/homebrew-smeller-report.git --force-auto-update
 

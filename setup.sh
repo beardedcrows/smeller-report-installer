@@ -14,17 +14,27 @@ fi
 
 echo "✅ Access granted."
 
-# Check for GitHub CLI
-if ! command -v gh &> /dev/null; then
-    echo "📦 GitHub CLI (gh) not found. Installing via Homebrew..."
-    if ! command -v brew &> /dev/null; then
-        echo "❌ Homebrew is not installed. Please install it first:"
-        echo "   https://brew.sh"
-        exit 1
+# Install Homebrew if missing
+if ! command -v brew &> /dev/null; then
+    echo "🛠️ Homebrew not found. Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    # Add Homebrew to PATH (Apple Silicon fix)
+    if [[ -d /opt/homebrew/bin ]]; then
+        export PATH="/opt/homebrew/bin:$PATH"
+        echo 'export PATH="/opt/homebrew/bin:$PATH"' >> ~/.zprofile
     fi
 
-    brew install gh
+    if ! command -v brew &> /dev/null; then
+        echo "❌ Homebrew installation failed. Please install it manually from https://brew.sh"
+        exit 1
+    fi
+fi
 
+# Install GitHub CLI if missing
+if ! command -v gh &> /dev/null; then
+    echo "📦 Installing GitHub CLI (gh)..."
+    brew install gh
     if [[ $? -ne 0 ]]; then
         echo "❌ Failed to install GitHub CLI."
         exit 1

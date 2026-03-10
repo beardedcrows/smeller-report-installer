@@ -41,7 +41,7 @@ brew tap beardedcrows/smeller-report https://github.com/beardedcrows/homebrew-sm
 
 # Install the CLI tool
 echo "⬇️ Installing Smeller Report Generator..."
-brew install smeller-report-generator
+brew install beardedcrows/smeller-report/smeller-report-generator
 
 # Copy to /Applications for Finder visibility
 INSTALL_PATH="$(which Smeller-Report-Generator)"
